@@ -7,477 +7,77 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
   :root {
-    --rose: #E8728A;
-    --rose-light: #F5A8B8;
-    --peach: #F5C5A3;
-    --cream: #FFF5F0;
-    --blush: #FCE8ED;
-    --text-dark: #3D2530;
-    --text-mid: #7A5060;
-    --text-light: #B8909A;
-    --card-bg: rgba(255,255,255,0.85);
+    --rose: #E8728A; --rose-light: #F5A8B8; --peach: #F5C5A3;
+    --cream: #FFF5F0; --blush: #FCE8ED;
+    --text-dark: #3D2530; --text-mid: #7A5060; --text-light: #B8909A;
+    --card-bg: rgba(255,255,255,0.88);
     --shadow: 0 8px 32px rgba(232,114,138,0.18);
   }
-
-  html, body {
-    height: 100%;
-    font-family: 'Nunito', sans-serif;
-    background: var(--cream);
-    color: var(--text-dark);
-    overflow-x: hidden;
-  }
-
-  .bg-gradient {
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 10%, rgba(245,197,163,0.55) 0%, transparent 55%),
-      radial-gradient(ellipse at 85% 5%, rgba(248,180,200,0.45) 0%, transparent 45%),
-      radial-gradient(ellipse at 60% 90%, rgba(232,114,138,0.25) 0%, transparent 50%),
-      linear-gradient(160deg, #FFF0F5 0%, #FFF5EE 50%, #FFF0F8 100%);
-    z-index: 0;
-  }
-
-  .petals {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  .petal {
-    position: absolute;
-    top: -40px;
-    font-size: 18px;
-    animation: fall linear infinite;
-    opacity: 0.6;
-  }
-
-  @keyframes fall {
-    0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
-    10%  { opacity: 0.6; }
-    90%  { opacity: 0.4; }
-    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
-  }
-
-  .app {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 16px 40px;
-  }
-
-  /* ── HEADER ── */
-  .header {
-    text-align: center;
-    padding: 48px 0 32px;
-    animation: fadeUp 0.7s ease both;
-  }
-
-  .header-emoji {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 12px;
-    animation: floatEmoji 3s ease-in-out infinite;
-  }
-
-  @keyframes floatEmoji {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-6px); }
-  }
-
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--text-dark);
-    line-height: 1.3;
-  }
-
-  .header p {
-    margin-top: 8px;
-    font-size: 14px;
-    color: var(--text-light);
-    font-weight: 300;
-    letter-spacing: 0.3px;
-  }
-
-  /* ── CHOICE CARDS ── */
-  .choices {
-    width: 100%;
-    max-width: 380px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    animation: fadeUp 0.8s 0.15s ease both;
-  }
-
-  .choice-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border-radius: 24px;
-    padding: 24px 20px;
-    border: 1.5px solid rgba(232,114,138,0.18);
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
-    user-select: none;
-  }
-
-  .choice-card:active {
-    transform: scale(0.97);
-    box-shadow: 0 4px 16px rgba(232,114,138,0.12);
-  }
-
-  .choice-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    flex-shrink: 0;
-  }
-
+  html, body { height: 100%; font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+  .bg-gradient { position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 10%, rgba(245,197,163,0.55) 0%, transparent 55%), radial-gradient(ellipse at 85% 5%, rgba(248,180,200,0.45) 0%, transparent 45%), radial-gradient(ellipse at 60% 90%, rgba(232,114,138,0.25) 0%, transparent 50%), linear-gradient(160deg, #FFF0F5 0%, #FFF5EE 50%, #FFF0F8 100%); z-index: 0; }
+  .petals { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .petal { position: absolute; top: -40px; animation: fall linear infinite; opacity: 0.6; }
+  @keyframes fall { 0% { transform: translateY(-40px) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.4; } 100% { transform: translateY(110vh) rotate(540deg); opacity: 0; } }
+  .app { position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 16px 40px; }
+  .header { text-align: center; padding: 48px 0 32px; animation: fadeUp 0.7s ease both; }
+  .header-emoji { font-size: 48px; display: block; margin-bottom: 12px; animation: floatEmoji 3s ease-in-out infinite; }
+  @keyframes floatEmoji { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+  .header p { margin-top: 8px; font-size: 14px; color: var(--text-light); font-weight: 300; letter-spacing: 0.3px; }
+  .choices { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 16px; animation: fadeUp 0.8s 0.15s ease both; }
+  .choice-card { background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 24px; padding: 24px 20px; border: 1.5px solid rgba(232,114,138,0.18); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; gap: 18px; transition: transform 0.22s ease, box-shadow 0.22s ease; user-select: none; }
+  .choice-card:active { transform: scale(0.97); box-shadow: 0 4px 16px rgba(232,114,138,0.12); }
+  .choice-icon { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
   .choice-icon.restaurant { background: linear-gradient(135deg, #FFE0EC, #FFBBD0); }
-  .choice-icon.home       { background: linear-gradient(135deg, #FFE8D5, #FFCBA4); }
-
-  .choice-text h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 4px;
-  }
-
-  .choice-text p {
-    font-size: 12.5px;
-    color: var(--text-light);
-    line-height: 1.45;
-  }
-
-  .choice-arrow {
-    margin-left: auto;
-    color: var(--rose-light);
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-
-  /* ── RESULT SCREEN ── */
-  .result-screen {
-    display: none;
-    width: 100%;
-    max-width: 380px;
-    flex-direction: column;
-    gap: 0;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .result-screen.visible {
-    display: flex;
-  }
-
-  .back-btn {
-    background: none;
-    border: none;
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    color: var(--text-light);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 0 20px;
-    transition: color 0.2s;
-  }
-
+  .choice-icon.home { background: linear-gradient(135deg, #FFE8D5, #FFCBA4); }
+  .choice-text h2 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+  .choice-text p { font-size: 12.5px; color: var(--text-light); line-height: 1.45; }
+  .choice-arrow { margin-left: auto; color: var(--rose-light); font-size: 20px; flex-shrink: 0; }
+  .result-screen { display: none; width: 100%; max-width: 380px; flex-direction: column; gap: 0; animation: fadeUp 0.5s ease both; }
+  .result-screen.visible { display: flex; }
+  .back-btn { background: none; border: none; font-family: 'Nunito', sans-serif; font-size: 14px; color: var(--text-light); cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 0 0 20px; transition: color 0.2s; }
   .back-btn:hover { color: var(--rose); }
-
-  .result-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border-radius: 24px;
-    border: 1.5px solid rgba(232,114,138,0.18);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-
-  .result-top {
-    background: linear-gradient(135deg, #F7C5D5 0%, #F5BFA8 100%);
-    padding: 28px 22px 22px;
-    position: relative;
-  }
-
-  .result-type-label {
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(61,37,48,0.55);
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .result-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-dark);
-    line-height: 1.3;
-  }
-
-  .result-subtitle {
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--text-mid);
-  }
-
-  .result-deco {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    font-size: 42px;
-    opacity: 0.35;
-  }
-
-  .result-body {
-    padding: 22px;
-  }
-
-  .result-section {
-    margin-bottom: 20px;
-  }
-
+  .result-card { background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 24px; border: 1.5px solid rgba(232,114,138,0.18); box-shadow: var(--shadow); overflow: hidden; }
+  .result-top { background: linear-gradient(135deg, #F7C5D5 0%, #F5BFA8 100%); padding: 28px 22px 22px; position: relative; }
+  .result-type-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(61,37,48,0.55); font-weight: 600; margin-bottom: 8px; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+  .result-subtitle { margin-top: 6px; font-size: 13px; color: var(--text-mid); }
+  .result-deco { position: absolute; right: 18px; top: 18px; font-size: 42px; opacity: 0.35; }
+  .result-body { padding: 22px; }
+  .result-section { margin-bottom: 20px; }
   .result-section:last-child { margin-bottom: 0; }
-
-  .result-section-title {
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--rose);
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  .result-section-body {
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.7;
-  }
-
-  .tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tag {
-    background: var(--blush);
-    color: var(--rose);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(232,114,138,0.2);
-  }
-
-  .rating-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--text-mid);
-  }
-
+  .result-section-title { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rose); font-weight: 600; margin-bottom: 10px; }
+  .result-section-body { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { background: var(--blush); color: var(--rose); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(232,114,138,0.2); }
+  .rating-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-mid); }
   .stars { color: #F5C34C; font-size: 16px; letter-spacing: 1px; }
-
-  .ingredient-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .ingredient-list li {
-    font-size: 14px;
-    color: var(--text-mid);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.45;
-  }
-
-  .ingredient-list li::before {
-    content: '🛒';
-    font-size: 13px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .steps-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .steps-list li {
-    display: flex;
-    gap: 12px;
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.55;
-  }
-
-  .step-num {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--rose-light), var(--rose));
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
-  }
-
-  .shuffle-btn {
-    width: 100%;
-    margin-top: 16px;
-    padding: 15px;
-    border: none;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #E8728A, #D4556D);
-    color: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    transition: transform 0.18s, box-shadow 0.18s;
-    box-shadow: 0 4px 18px rgba(232,114,138,0.4);
-  }
-
+  .ingredient-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .ingredient-list li { font-size: 14px; color: var(--text-mid); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45; }
+  .ingredient-list li::before { content: '🛒'; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .steps-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .steps-list li { display: flex; gap: 12px; font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+  .step-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-light), var(--rose)); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .shuffle-btn { width: 100%; margin-top: 16px; padding: 15px; border: none; border-radius: 16px; background: linear-gradient(135deg, #E8728A, #D4556D); color: white; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; letter-spacing: 0.3px; transition: transform 0.18s, box-shadow 0.18s; box-shadow: 0 4px 18px rgba(232,114,138,0.4); }
   .shuffle-btn:active { transform: scale(0.97); }
-
-  /* ── LOADING ── */
-  .loading-screen {
-    display: none;
-    width: 100%;
-    max-width: 380px;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 0 40px;
-    gap: 20px;
-  }
-
-  .loading-screen.visible { display: flex; }
-
-  .spinner {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: 3px solid rgba(232,114,138,0.15);
-    border-top-color: var(--rose);
-    animation: spin 0.9s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 17px;
-    color: var(--text-light);
-    text-align: center;
-  }
-
-  .loading-dots::after {
-    content: '';
-    animation: dots 1.4s steps(4, end) infinite;
-  }
-
-  @keyframes dots {
-    0%   { content: ''; }
-    25%  { content: '.'; }
-    50%  { content: '..'; }
-    75%  { content: '...'; }
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(232,114,138,0.25), transparent);
-    margin: 18px 0;
-  }
-
-  .address-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 13.5px;
-    color: var(--text-mid);
-    line-height: 1.5;
-  }
-
+  .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(232,114,138,0.25), transparent); margin: 18px 0; }
+  .address-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
   .address-pin { color: var(--rose); flex-shrink: 0; }
-
-  .cuisine-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #FFE0EC, #FFCBA4);
-    color: var(--text-dark);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-  }
-
-  .time-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--blush);
-    color: var(--text-mid);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 20px;
-  }
+  .cuisine-badge { display: inline-block; background: linear-gradient(135deg, #FFE0EC, #FFCBA4); color: var(--text-dark); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; margin-bottom: 12px; }
+  .time-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--blush); color: var(--text-mid); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-
 <div class="bg-gradient"></div>
 <div class="petals" id="petals"></div>
-
 <div class="app">
-
-  <!-- HEADER -->
   <div class="header" id="header">
     <span class="header-emoji">🌸</span>
     <h1>Где едим завтра?</h1>
     <p>Казань · выбери, как хочется провести вечер</p>
   </div>
-
-  <!-- CHOICE CARDS -->
   <div class="choices" id="choiceScreen">
     <div class="choice-card" onclick="choose('restaurant')">
       <div class="choice-icon restaurant">🍽️</div>
@@ -487,7 +87,6 @@
       </div>
       <div class="choice-arrow">›</div>
     </div>
-
     <div class="choice-card" onclick="choose('home')">
       <div class="choice-icon home">🍳</div>
       <div class="choice-text">
@@ -497,50 +96,94 @@
       <div class="choice-arrow">›</div>
     </div>
   </div>
-
-  <!-- LOADING -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="spinner"></div>
-    <div class="loading-text" id="loadingText">Ищем идеальное место<span class="loading-dots"></span></div>
-  </div>
-
-  <!-- RESULT -->
   <div class="result-screen" id="resultScreen">
     <button class="back-btn" onclick="goBack()">← вернуться</button>
-    <div class="result-card" id="resultCard">
-      <!-- filled by JS -->
-    </div>
+    <div class="result-card" id="resultCard"></div>
     <button class="shuffle-btn" id="shuffleBtn" onclick="shuffle()">✨ Попробовать другой вариант</button>
   </div>
-
 </div>
 
 <script>
 // ── PETALS ──
-const PETALS = ['🌸','🌺','🌷','💮','🌼','✿'];
-const petalContainer = document.getElementById('petals');
+const PETALS = ['🌸','🌺','🌷','💮','🌼'];
+const pc = document.getElementById('petals');
 for (let i = 0; i < 14; i++) {
   const el = document.createElement('div');
   el.className = 'petal';
-  el.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
-  el.style.left = Math.random() * 100 + 'vw';
+  el.textContent = PETALS[i % PETALS.length];
+  el.style.left = (Math.random() * 100) + 'vw';
   el.style.fontSize = (12 + Math.random() * 12) + 'px';
   el.style.animationDuration = (8 + Math.random() * 12) + 's';
   el.style.animationDelay = (-Math.random() * 14) + 's';
-  petalContainer.appendChild(el);
+  pc.appendChild(el);
 }
+
+// ══════════════════════════════════════════════════
+// РЕСТОРАНЫ КАЗАНИ (20 заведений, рейтинг 4.5+)
+// ══════════════════════════════════════════════════
+const RESTAURANTS = [
+  { name:"Дом Татарской Кулинарии", cuisine:"Татарская кухня", rating:"4.8", address:"ул. Баумана, 31", vibe:"Уютно и по-домашнему", why:"Лучшее место для настоящих эчпочмаков, чак-чака и казылыка. Деревянный интерьер и тёплая атмосфера делают ужин особенным. Порции большие, цены приятные.", tags:["Традиционная кухня","Уютно","Для двоих","Атмосферно"], emoji:"🥟" },
+  { name:"Туган Авылым", cuisine:"Татарская кухня", rating:"4.7", address:"ул. Право-Булачная, 55", vibe:"Деревня внутри города", why:"Этнический ресторан-деревня в центре Казани — целый комплекс с настоящими избами. Живая музыка, народные костюмы официантов и невероятная казанская уха. Незабываемые впечатления.", tags:["Фольклор","Живая музыка","Казанская уха","Особый вечер"], emoji:"🏡" },
+  { name:"Биляр", cuisine:"Татарская и европейская", rating:"4.7", address:"ул. Муштари, 8", vibe:"Классика и изысканность", why:"Один из самых известных ресторанов Казани с богатым меню татарской и европейской кухни. Отличный интерьер, безупречный сервис и фирменный плов.", tags:["Классический ресторан","Богатое меню","Плов","Сервис"], emoji:"🍷" },
+  { name:"Разгуляй", cuisine:"Русская кухня", rating:"4.6", address:"ул. Университетская, 8", vibe:"Душевно и по-русски", why:"Пельмени ручной лепки, холодец, квас и борщ как у бабушки. Тёплый деревянный интерьер и добродушный персонал создают ощущение дома.", tags:["Русская кухня","Пельмени","Уютно","Домашняя еда"], emoji:"🥣" },
+  { name:"Olive", cuisine:"Средиземноморская кухня", rating:"4.7", address:"ул. Кремлёвская, 33", vibe:"Романтично и изысканно", why:"Стильный ресторан с видом на Кремль и великолепной средиземноморской кухней. Свежая рыба, паста и салаты. Идеален для романтического ужина.", tags:["Романтика","Средиземноморье","Вид на Кремль","Морепродукты"], emoji:"🫒" },
+  { name:"Пряности & Радости", cuisine:"Авторская кухня", rating:"4.6", address:"ул. Баумана, 44", vibe:"Модно и вкусно", why:"Гастрономический ресторан с необычными сочетаниями вкусов и красивой подачей. Меню меняется с сезонами, шеф творчески переосмысляет классику. Обязательно попробуй тартар.", tags:["Авторская кухня","Тартар","Красивая подача","Гастрономия"], emoji:"🌿" },
+  { name:"Kazan Brew", cuisine:"Пивной ресторан, гриль", rating:"4.6", address:"ул. Петербургская, 10", vibe:"Весело и сытно", why:"Крафтовые казанские сорта пива и сочные блюда на гриле — идеальное сочетание. Большие порции, живая атмосфера и разнообразное меню бургеров и рёбрышек.", tags:["Крафтовое пиво","Гриль","Бургеры","Весёлая атмосфера"], emoji:"🍺" },
+  { name:"Чайхана Нур", cuisine:"Восточная кухня", rating:"4.7", address:"ул. Достоевского, 40", vibe:"Восток — дело тонкое", why:"Аутентичный узбекский плов, самса из тандыра, сочные шашлыки и ароматный чай. Богатый интерьер с коврами и светильниками перенесёт тебя в Самарканд.", tags:["Узбекская кухня","Плов","Шашлык","Восточный интерьер"], emoji:"🕌" },
+  { name:"Сытый Папа", cuisine:"Грузинская кухня", rating:"4.8", address:"ул. Толстого, 12", vibe:"Хачапури и счастье", why:"Аутентичные хачапури по-аджарски, хинкали и сациви. Уютный зал, щедрые порции и атмосфера настоящего грузинского застолья — уходить не захочется.", tags:["Грузинская кухня","Хачапури","Хинкали","Щедрые порции"], emoji:"🧀" },
+  { name:"Maki Maki", cuisine:"Японская кухня", rating:"4.6", address:"ул. Пушкина, 1", vibe:"Свежо и по-японски", why:"Лучшая японская кухня в Казани: свежайшие суши и роллы. Минималистичный интерьер, внимательный сервис и тунец, который тает во рту.", tags:["Суши","Роллы","Тунец","Японский стиль"], emoji:"🍣" },
+  { name:"Кофе Культ", cuisine:"Кафе, европейская кухня", rating:"4.7", address:"ул. Лево-Булачная, 22а", vibe:"Камерно и по-домашнему", why:"Уютное кафе с авторскими кофейными напитками: яйца бенедикт, авокадо-тост, нежные панкейки. Идеально для неспешного обеда вдвоём.", tags:["Авторский кофе","Бранч","Уютно","Яйца бенедикт"], emoji:"☕" },
+  { name:"Ла Каса", cuisine:"Итальянская кухня", rating:"4.6", address:"ул. Габдуллы Тукая, 67", vibe:"Италия в сердце Казани", why:"Настоящая итальянская траттория с дровяной печью для пиццы. Тесто на закваске, моцарелла буффало и паста ручной лепки — каждое блюдо произведение искусства.", tags:["Пицца из печи","Паста","Итальянская кухня","Уютно"], emoji:"🍕" },
+  { name:"Чочо", cuisine:"Корейская кухня", rating:"4.7", address:"ул. Бутлерова, 30", vibe:"Остро, ярко, незабываемо", why:"Первый настоящий корейский ресторан в Казани. Кимчи домашней закваски, самгёпсаль на гриле прямо за столом и пикантный рамён — настоящее приключение для вкуса.", tags:["Корейская кухня","Гриль за столом","Рамён","Кимчи"], emoji:"🌶️" },
+  { name:"Артель", cuisine:"Авторская, фермерская кухня", rating:"4.8", address:"ул. Щапова, 47", vibe:"Фермерское и настоящее", why:"Прямые поставки с местных ферм: фермерские стейки, домашний сыр, овощи с грядки. Меню честно рассказывает откуда каждый продукт.", tags:["Фермерская кухня","Стейки","Местные продукты","Авторская кухня"], emoji:"🥩" },
+  { name:"Brasserie Noir", cuisine:"Французская кухня", rating:"4.6", address:"ул. Горького, 17", vibe:"Парижский вечер в Казани", why:"Элегантное французское бистро с луковым супом, стейком фрит и крем-брюле. Тёмный интерьер, живой джаз по пятницам и отличная карта вин.", tags:["Французская кухня","Вино","Джаз","Романтика"], emoji:"🥐" },
+  { name:"Буян", cuisine:"Татарская, русская", rating:"4.7", address:"Кремлёвская набережная, 6", vibe:"С видом на Казанку", why:"Ресторан на набережной с панорамным видом на реку Казанку. Уха из живой рыбы, беляши из тандыра и фирменный медовик. Особенно прекрасен вечером.", tags:["Вид на реку","Набережная","Уха","Романтичный закат"], emoji:"🌊" },
+  { name:"Тюбетей", cuisine:"Татарский фастфуд", rating:"4.7", address:"ул. Баумана, 58", vibe:"Быстро, вкусно, по-казански", why:"Легендарное место для быстрого татарского перекуса: горячий эчпочмак, кыстыбый с картошкой и чай с чак-чаком. Очереди говорят сами за себя.", tags:["Быстро","Эчпочмак","Кыстыбый","Народная кухня"], emoji:"🥧" },
+  { name:"Grill & Wine", cuisine:"Стейк-хаус", rating:"4.6", address:"ул. Чернышевского, 27а", vibe:"Мясо и вино по-взрослому", why:"Лучший стейк-хаус Казани с мясом выдержки dry age. Рибай и томагавк на живом угле, карта вин более 150 позиций. Для тех, кто ценит настоящее мясо.", tags:["Стейки","Dry age","Вино","Живой огонь"], emoji:"🔥" },
+  { name:"Марусин Дворик", cuisine:"Домашняя кухня", rating:"4.7", address:"ул. Карла Маркса, 38", vibe:"Как у мамы в гостях", why:"Небольшое кафе с невероятно домашней едой: томлёная говядина, картофельные зразы, борщ на говяжьем бульоне. Бабушкины рецепты в современном исполнении.", tags:["Домашняя еда","Борщ","Уют","Доступные цены"], emoji:"🏠" },
+  { name:"Вкусно-точка", cuisine:"Современная кухня фьюжн", rating:"4.6", address:"ул. Декабристов, 85", vibe:"Модно и неожиданно", why:"Молодой ресторан с нестандартным подходом: азиатские и европейские техники дают неожиданный результат. Трюфельные шарики, лосось мисо и чизкейк матча.", tags:["Фьюжн","Матча","Лосось мисо","Модный ресторан"], emoji:"🌏" }
+];
+
+// ══════════════════════════════════════════════════
+// РЕЦЕПТЫ МИРА (20 блюд, готовятся за час на плите)
+// ══════════════════════════════════════════════════
+const RECIPES = [
+  { name:"Паста Карбонара", cuisine:"Итальянская кухня", time:"25 минут", emoji:"🍝", description:"Шелковистая паста с хрустящим беконом и нежным сливочным соусом из яиц и пармезана. Никаких сливок — только магия правильной техники.", ingredients:["Спагетти — 200 г","Гуанчале или бекон — 150 г","Яйца — 3 шт (2 желтка + 1 целое)","Пармезан тёртый — 80 г","Чёрный перец свежемолотый","Соль для воды"], steps:["Отвари спагетти в сильно подсоленной воде до аль денте, сохрани 1 стакан воды.","Нарежь бекон кубиками и обжарь на сухой сковороде до хруста, выключи огонь.","Взбей яйца с желтками, добавь пармезан и щедро поперчи.","Горячие спагетти добавь к бекону, влей пару ложек воды и вылей яичную смесь.","Быстро перемешивай, подливая воду — соус должен обволакивать пасту. Подавай немедленно."], tip:"Никогда не лей яичный соус в горячую сковороду: снимай с огня и добавляй яйца только к горячей пасте." },
+  { name:"Тайский карри с кокосом", cuisine:"Тайская кухня", time:"35 минут", emoji:"🥥", description:"Ароматное кремовое карри с кокосовым молоком, куриным филе и свежими овощами. Нежный, но насыщенный вкус с лёгкой остротой.", ingredients:["Куриное филе — 400 г","Кокосовое молоко — 400 мл","Красная паста карри — 2 ст. л.","Болгарский перец — 1 шт","Стручковая фасоль — 150 г","Рыбный соус — 1 ст. л.","Сок лайма — 1 шт","Свежий базилик — пучок","Рис жасмин — 200 г"], steps:["Поставь вариться рис. Курицу нарежь кубиками, перец — полосками.","Разогрей вок, добавь 3 ст. л. кокосового молока и пасту карри — жарь 1 минуту.","Добавь курицу, обжаривай 5 минут. Влей оставшееся кокосовое молоко.","Добавь перец, фасоль, рыбный соус. Туши 10-12 минут.","Выжми лайм, подавай с рисом и листьями базилика."], tip:"Чем больше обжариваешь пасту карри в начале — тем ярче и насыщеннее аромат блюда." },
+  { name:"Шакшука", cuisine:"Ближневосточная кухня", time:"25 минут", emoji:"🍳", description:"Нежные яйца, томлёные в пряном томатном соусе с паприкой и зирой. Простое, яркое и невероятно вкусное блюдо родом из Туниса.", ingredients:["Яйца — 4 шт","Томаты в собственном соку — 400 г","Болгарский перец — 2 шт","Лук — 1 шт","Чеснок — 3 зубчика","Паприка сладкая — 1 ч. л.","Зира молотая — 0.5 ч. л.","Оливковое масло, соль, перец","Петрушка и хлеб для подачи"], steps:["Лук и перец нарежь, чеснок — мелко. Обжаривай на масле 7 минут.","Добавь паприку и зиру, жарь 1 минуту. Влей томаты, разомни ложкой.","Туши соус 10 минут, посоли и поперчи.","Сделай 4 углубления ложкой и разбей яйца.","Накрой крышкой, готовь 5-7 минут. Подавай прямо в сковороде с хлебом."], tip:"Добавь в соус ложку сливочного масла и 50 г феты перед подачей — вкус станет нежнее и богаче." },
+  { name:"Ризотто с грибами", cuisine:"Итальянская кухня", time:"45 минут", emoji:"🍄", description:"Кремовое, обволакивающее ризотто с ароматными лесными грибами и пармезаном. Медитативный процесс — и великолепный результат.", ingredients:["Рис арборио — 200 г","Шампиньоны или лесные грибы — 300 г","Горячий бульон — 800 мл","Белое сухое вино — 100 мл","Лук шалот — 2 шт","Чеснок — 2 зубчика","Пармезан тёртый — 60 г","Сливочное масло — 40 г","Оливковое масло, тимьян"], steps:["Грибы обжарь на сильном огне с тимьяном до золотистости. Отложи.","Обжарь шалот и чеснок на масле 3 минуты.","Добавь рис, мешай 2 минуты. Влей вино, дождись впитывания.","Добавляй горячий бульон по половнику, помешивая — 20 минут.","Сними с огня, добавь грибы, масло и пармезан. Подавай немедленно."], tip:"Бульон обязательно горячий — холодный остудит рис и нарушит кремовую текстуру ризотто." },
+  { name:"Шакшука с фетой", cuisine:"Израильская кухня", time:"20 минут", emoji:"🧅", description:"Сливочная вариация шакшуки с рассыпчатой фетой и зелёным луком. Ещё нежнее, ещё сытнее, ещё прекраснее.", ingredients:["Яйца — 3 шт","Томаты черри — 300 г","Фета — 100 г","Лук зелёный — пучок","Чеснок — 2 зубчика","Хлопья чили — щепотка","Оливковое масло","Питта или багет"], steps:["Черри разрежь пополам, обжарь на масле с чесноком 5 минут.","Разомни часть томатов вилкой, добавь чили, посоли.","Раскроши фету поверх соуса.","Разбей яйца, накрой крышкой и готовь 4-5 минут.","Посыпь зелёным луком, подавай с горячей питтой."], tip:"Фета солёная — не добавляй соль до конца готовки, попробуй сначала." },
+  { name:"Пад Тай с креветками", cuisine:"Тайская кухня", time:"30 минут", emoji:"🍤", description:"Культовая тайская лапша с хрустящими ростками, яйцом и тигровыми креветками в кисло-сладком соусе.", ingredients:["Рисовая лапша — 200 г","Тигровые креветки — 200 г","Яйца — 2 шт","Ростки маша — 100 г","Рыбный соус — 2 ст. л., соевый соус — 1 ст. л., сахар — 1 ст. л.","Зелёный лук — 3 стебля","Жареный арахис — 40 г","Лайм — 1 шт"], steps:["Замочи лапшу в горячей воде на 10 минут, откинь.","Обжарь креветки 2 минуты, отложи.","Добавь лапшу и соус — жарь 2 минуты в воке.","Сдвинь лапшу, разбей яйца и смешай с лапшой.","Добавь всё остальное, подавай с арахисом и долькой лайма."], tip:"Горячий вок и быстрые движения — главный секрет. Готовь на максимальном огне." },
+  { name:"Хачапури по-аджарски", cuisine:"Грузинская кухня", time:"50 минут", emoji:"🧀", description:"Знаменитые грузинские лодочки с расплавленным сулугуни, маслом и яйцом. Самый уютный ужин из возможных.", ingredients:["Мука — 300 г","Молоко тёплое — 150 мл","Дрожжи сухие — 5 г","Сулугуни — 300 г","Яйца — 3 шт","Сливочное масло — 40 г","Сахар — 1 ч. л., соль — 0.5 ч. л."], steps:["Смешай молоко, дрожжи, сахар. Добавь муку, соль, яйцо — замеси тесто. Оставь на 25 минут.","Натри сулугуни, смешай с 20 г мягкого масла.","Тесто раздели, раскатай овалы. Сверни края, формируя лодочки, защипни концы.","Наполни сыром. Обжарь на сухой сковороде под крышкой 12 минут на минимальном огне.","Сделай углубление, вбей яйцо, верни на минуту. Добавь масло и подавай."], tip:"Настоящее хачапури едят руками: отламывают кусочек теста с края и макают в расплавленный сыр с желтком." },
+  { name:"Суп Том Ям", cuisine:"Тайская кухня", time:"35 минут", emoji:"🍜", description:"Легендарный тайский суп: острый, кислый, ароматный. Кокосовое молоко делает его кремовым и незабываемым.", ingredients:["Тигровые креветки — 250 г","Кокосовое молоко — 200 мл","Куриный бульон — 600 мл","Шампиньоны — 150 г","Паста том-ям — 2 ст. л.","Рыбный соус — 2 ст. л.","Сок лайма — 2 ст. л.","Помидоры черри — 100 г","Кинза и перец чили"], steps:["Доведи бульон до кипения, добавь пасту том-ям.","Добавь шампиньоны и помидоры черри, вари 5 минут.","Влей кокосовое молоко, добавь рыбный соус и лайм.","Опусти креветки, вари ровно 3 минуты.","Подавай с кинзой и кольцами чили."], tip:"Паста том-ям уже содержит лемонграсс и галангал — не нужно искать эти ингредиенты отдельно." },
+  { name:"Чахохбили из курицы", cuisine:"Грузинская кухня", time:"50 минут", emoji:"🍗", description:"Сочная курица в томатах с луком, грецкими орехами и пряными травами. Насыщенное грузинское тушёное мясо.", ingredients:["Курица кусочками — 1 кг","Помидоры — 500 г","Лук — 3 шт","Чеснок — 4 зубчика","Кинза — пучок","Хмели-сунели — 1 ч. л.","Аджика — 1 ч. л.","Сливочное масло — 30 г"], steps:["Кусочки курицы обжарь в сухой кастрюле без масла 10 минут.","Добавь нарезанный лук, жарь ещё 8 минут.","Добавь томаты, хмели-сунели, аджику. Туши под крышкой 25 минут.","Добавь чеснок за 5 минут до конца.","Добавь масло и кинзу, подавай с лавашем."], tip:"Жарка курицы без масла в начале — грузинский секрет: собственный жир птицы даёт особый вкус." },
+  { name:"Домашний рамён", cuisine:"Японская кухня", time:"45 минут", emoji:"🍜", description:"Насыщенный рамён с мягко-варёным яйцом, шпинатом и свининой в ароматном бульоне соевого соуса.", ingredients:["Свинина (шея) — 300 г","Яичная лапша — 200 г","Яйца — 2 шт","Куриный бульон — 800 мл","Соевый соус — 3 ст. л.","Кунжутное масло — 1 ч. л.","Имбирь — 20 г, чеснок — 3 зубчика","Шпинат — 100 г","Зелёный лук, кунжут"], steps:["Яйца вари 6 минут, охлади, очисти. Разрежь пополам.","Свинину обжарь с имбирём и чесноком 5 минут.","Влей бульон и соевый соус, вари 20 минут.","Отвари лапшу отдельно, добавь шпинат в бульон на 2 минуты.","Разложи лапшу, залей бульоном, положи яйцо, посыпь луком и кунжутом."], tip:"Для идеального яйца — после варки замаринуй 30 минут в смеси соевого соуса, воды и сахара 3:2:1." },
+  { name:"Спагетти Болоньезе", cuisine:"Итальянская кухня", time:"55 минут", emoji:"🍝", description:"Классический болоньезе с медленно тушёным мясным соусом, морковью и вином. Простой и абсолютно беспроигрышный.", ingredients:["Говяжий фарш — 400 г","Спагетти — 200 г","Томаты в собственном соку — 400 г","Лук — 1 шт, морковь — 1 шт, сельдерей — 1 стебель","Красное вино — 100 мл","Томатная паста — 1 ст. л.","Чеснок — 2 зубчика","Пармезан, тимьян, лавровый лист"], steps:["Лук, морковь, сельдерей нарежь, обжарь 8 минут.","Добавь фарш, жарь 7-8 минут до коричневого цвета.","Влей вино, выпари 3 минуты. Добавь томатную пасту и специи.","Добавь томаты, туши на минимальном огне 25-30 минут.","Смешай с варёными спагетти, подавай с пармезаном."], tip:"Чем дольше томится соус — тем богаче вкус. Если есть ещё 20 минут — не торопись." },
+  { name:"Тако с говядиной", cuisine:"Мексиканская кухня", time:"30 минут", emoji:"🌮", description:"Сочная говядина с пряностями в хрустящей лепёшке, авокадо, сыром и сальсой. Яркий и весёлый ужин.", ingredients:["Говяжий фарш — 400 г","Лепёшки тортилья — 8 шт","Авокадо — 2 шт","Томаты — 2 шт","Лук красный — 0.5 шт","Твёрдый сыр — 100 г","Сметана — 150 г","Паприка, зира, чили — по 1 ч. л.","Кинза, лайм"], steps:["Обжарь фарш с луком 8 минут, разминая комки.","Добавь специи и чеснок, жарь 3 минуты.","Разомни авокадо с лаймом и солью — гуакамоле готов.","Томаты и красный лук нарежь — простая сальса.","Разогрей лепёшки и собери тако: мясо, гуакамоле, сальса, сыр, сметана."], tip:"Косточка авокадо в гуакамоле не даёт ему темнеть. И всегда добавляй лайм — он важнее всего." },
+  { name:"Крем-суп из тыквы", cuisine:"Французская кухня", time:"40 минут", emoji:"🎃", description:"Бархатный нежный суп из тыквы с имбирём и кокосовым молоком. Сладковатый, ароматный и очень согревающий.", ingredients:["Тыква — 800 г","Лук — 1 шт","Имбирь свежий — 25 г","Кокосовое молоко — 200 мл","Овощной бульон — 400 мл","Чеснок — 2 зубчика","Оливковое масло","Тыквенные семечки для подачи","Соль, мускатный орех"], steps:["Тыкву очисти, нарежь. Обжарь с луком на масле 5 минут.","Добавь имбирь и чеснок, жарь 2 минуты.","Влей бульон, вари 20 минут до мягкости.","Пробей блендером. Влей кокосовое молоко, добавь специи.","Прогрей 3 минуты. Подавай со сливками и семечками."], tip:"Для более глубокого вкуса запеки тыкву с луком в духовке 20 минут перед варкой." },
+  { name:"Лосось в медово-соевой глазури", cuisine:"Азиатская фьюжн", time:"20 минут", emoji:"🐟", description:"Нежнейший лосось в карамельной глазури с азиатскими нотами. Быстро, элегантно и невероятно вкусно.", ingredients:["Филе лосося — 2 порции (300 г)","Мёд — 2 ст. л.","Соевый соус — 3 ст. л.","Чеснок — 2 зубчика","Имбирь тёртый — 1 ч. л.","Сок лайма — 1 ст. л.","Кунжутное масло — 1 ч. л.","Кунжут и зелёный лук","Рис или овощи на гарнир"], steps:["Смешай мёд, соевый соус, чеснок, имбирь, лайм и кунжутное масло.","Лосось обсуши, залей маринадом на 10 минут.","Разогрей сковороду на сильном огне.","Жарь лосось кожей вниз 4 минуты, переверни. Влей маринад, жарь 3 минуты — глазурь карамелизуется.","Подавай с рисом, посыпав кунжутом и луком."], tip:"Не двигай лосось в первые 4 минуты — дай корочке образоваться. Тогда он сам легко отойдёт." },
+  { name:"Плов узбекский", cuisine:"Узбекская кухня", time:"60 минут", emoji:"🍚", description:"Настоящий узбекский плов с бараниной, морковью и специями. Ароматный, сытный и торжественный.", ingredients:["Баранина или говядина — 400 г","Рис длиннозёрный — 300 г","Морковь — 2 шт","Лук — 2 шт","Чеснок — 1 головка","Растительное масло — 80 мл","Зира — 1 ч. л., куркума — 0.5 ч. л.","Соль, перец, барбарис"], steps:["Рис промой и замочи на 20 минут. Мясо нарежь кубиками, морковь — соломкой, лук — полукольцами.","Разогрей масло, обжарь лук до тёмно-золотистого цвета.","Добавь мясо, жарь 8 минут. Добавь морковь, ещё 5 минут.","Влей 600 мл кипятка, добавь специи и чеснок. Туши 15 минут.","Всыпь рис, не перемешивай. Вари без крышки, затем накрой и томи 20 минут."], tip:"Главный секрет плова — не мешать рис после закладки. Пусть готовится сам." },
+  { name:"Бёф Строганов", cuisine:"Русская кухня", time:"35 минут", emoji:"🥩", description:"Нежная говядина в сметанном соусе с горчицей и грибами. Классика русской кухни, которая всегда кстати.", ingredients:["Говяжья вырезка — 500 г","Шампиньоны — 200 г","Лук — 2 шт","Сметана 20% — 200 г","Горчица дижонская — 1 ст. л.","Говяжий бульон — 100 мл","Томатная паста — 1 ч. л.","Масло сливочное и растительное"], steps:["Мясо нарежь тонкой соломкой поперёк волокон.","Обжарь лук, добавь грибы, жарь 7 минут. Отложи.","На сильном огне быстро обжарь мясо партиями 2-3 минуты.","Верни лук с грибами, добавь пасту, горчицу и бульон. Туши 3 минуты.","Убавь огонь, добавь сметану, прогрей 2 минуты. Подавай с гречкой."], tip:"Мясо жарят быстро и горячо — строганов не тушат долго, лишь прогревают в соусе." },
+  { name:"Фо Бо", cuisine:"Вьетнамская кухня", time:"45 минут", emoji:"🥣", description:"Знаменитый вьетнамский говяжий суп с рисовой лапшой, звёздчатым анисом и свежими травами.", ingredients:["Говяжий бульон — 1 л","Рисовая лапша — 150 г","Говядина тонкий край (сырая) — 200 г","Имбирь — 30 г","Звёздчатый анис — 2 звёздочки","Корица — 1 палочка","Рыбный соус — 2 ст. л.","Ростки маша, кинза, лайм, чили"], steps:["Имбирь обжарь на сухой сковороде до подпалин. Добавь в бульон с анисом, корицей и соусом.","Вари бульон 25 минут, процеди.","Рисовую лапшу запари кипятком 5-8 минут, промой.","Говядину нарежь тончайшими слайсами.","В миску положи лапшу, сырую говядину, залей кипящим бульоном. Подавай с ростками и лаймом."], tip:"Говядину режут сырой и очень тонко — кипящий бульон моментально доводит её до готовности в тарелке." },
+  { name:"Панна Котта с клубникой", cuisine:"Итальянская кухня", time:"20 мин (+ охлаждение)", emoji:"🍮", description:"Нежнейший итальянский десерт-пудинг из сливок с ванилью и ягодным соусом. Элегантно и безотказно вкусно.", ingredients:["Сливки 33% — 500 мл","Сахар — 60 г","Ваниль — 1 ч. л.","Желатин листовой — 10 г","Клубника — 300 г","Сахарная пудра — 2 ст. л.","Сок лимона — 1 ст. л."], steps:["Желатин замочи в холодной воде на 5 минут.","Сливки с сахаром и ванилью прогрей до горячего (не кипяти). Добавь желатин, раствори.","Разлей по стаканам, накрой и убери в холодильник на 3 часа.","Клубнику пробей блендером с пудрой и лимоном.","Подавай с клубничным соусом и целыми ягодами."], tip:"Идеальная панна котта дрожит как желе, но не расплывается. Передержанный желатин даст резину." },
+  { name:"Мусака", cuisine:"Греческая кухня", time:"55 минут", emoji:"🫙", description:"Греческая запеканка с баклажанами, ароматным мясным соусом и нежным бешамелем. Сытная и согревающая.", ingredients:["Баклажан — 2 шт","Говяжий или бараний фарш — 400 г","Томаты консервированные — 300 г","Лук — 1 шт, чеснок — 2 зубчика","Корица — 0.5 ч. л., орегано — 1 ч. л.","Молоко — 300 мл, мука — 2 ст. л.","Сливочное масло — 30 г","Яйцо — 1 шт, пармезан — 50 г"], steps:["Баклажаны нарежь кружками, посоли, промой, обжарь до золотистости.","Обжарь лук и чеснок, добавь фарш, жарь 7 минут. Добавь томаты, корицу, орегано, туши 15 минут.","Для бешамеля растопи масло, добавь муку, влей молоко помешивая. Вбей яйцо.","В форме выложи: баклажаны, мясной соус, баклажаны. Залей бешамелем, посыпь пармезаном.","Запекай 25 минут при 200°C. Дай постоять 5 минут."], tip:"Корица в мясном соусе — не ошибка, это греческий секрет. Именно она даёт мусаке неповторимый аромат." },
+  { name:"Креветки с чесноком и вином", cuisine:"Испанская кухня", time:"15 минут", emoji:"🦐", description:"Гамбас аль ахильо — сочные испанские креветки в оливковом масле с чесноком, чили и белым вином. Быстро и невероятно вкусно.", ingredients:["Тигровые креветки — 400 г","Чеснок — 6 зубчиков","Белое сухое вино — 100 мл","Оливковое масло — 80 мл","Перец чили — 1 шт","Петрушка — пучок","Лимон — 1 шт","Хлеб для подачи"], steps:["Чеснок нарежь тонкими слайсами, чили — колечками.","Разогрей оливковое масло в сковороде, добавь чеснок и чили — жарь 1 минуту на среднем огне.","Добавь очищенные креветки, жарь 1 минуту с каждой стороны.","Влей вино, готовь ещё 2 минуты пока не выпарится алкоголь.","Посыпь петрушкой, выжми лимон. Подавай прямо в сковороде с хлебом."], tip:"Масло должно быть горячим, но не дымящимся. Чеснок не должен потемнеть — он только ароматизирует масло." }
+];
 
 // ── STATE ──
 let currentMode = null;
+const usedR = [], usedRec = [];
 
-function choose(mode) {
-  currentMode = mode;
-  fetchResult(mode);
+function getRandom(arr, used) {
+  if (used.length >= arr.length) used.length = 0;
+  let idx;
+  do { idx = Math.floor(Math.random() * arr.length); } while (used.includes(idx));
+  used.push(idx);
+  return arr[idx];
 }
 
-function shuffle() {
-  fetchResult(currentMode);
-}
+function choose(mode) { currentMode = mode; showResult(mode); }
+function shuffle() { showResult(currentMode); }
 
 function goBack() {
   document.getElementById('resultScreen').classList.remove('visible');
@@ -548,95 +191,26 @@ function goBack() {
   document.getElementById('header').style.display = 'block';
 }
 
-async function fetchResult(mode) {
+function showResult(mode) {
   document.getElementById('choiceScreen').style.display = 'none';
   document.getElementById('header').style.display = 'none';
-  document.getElementById('resultScreen').classList.remove('visible');
-
-  const loading = document.getElementById('loadingScreen');
-  loading.classList.add('visible');
-  document.getElementById('loadingText').textContent =
-    mode === 'restaurant'
-      ? 'Ищем идеальное место'
-      : 'Выбираем рецепт для тебя';
-
-  const prompt = mode === 'restaurant'
-    ? `Ты помогаешь паре в Казани (Россия) выбрать, куда пойти поесть завтра. 
-Предложи ОДИН случайный реальный ресторан или кафе в Казани с высоким рейтингом (4.5+).
-Каждый раз выбирай разное заведение — варьируй кухню, район, атмосферу.
-
-Ответь строго в формате JSON (без markdown, без \`\`\`, только чистый JSON):
-{
-  "name": "Название заведения",
-  "cuisine": "Тип кухни",
-  "rating": "4.8",
-  "address": "Адрес",
-  "vibe": "Одна фраза об атмосфере (уютно, романтично и т.д.)",
-  "why": "2–3 предложения почему стоит пойти именно сюда",
-  "tags": ["тег1","тег2","тег3"],
-  "emoji": "один подходящий эмодзи"
-}`
-    : `Ты помогаешь девушке выбрать, что приготовить дома завтра. 
-Предложи ОДНО блюдо из любой кухни мира (французская, азиатская, итальянская, мексиканская и т.д.), которое можно приготовить за 45–60 минут на плите.
-Каждый раз выбирай разное блюдо из разных кухонь.
-
-Ответь строго в формате JSON (без markdown, без \`\`\`, только чистый JSON):
-{
-  "name": "Название блюда",
-  "cuisine": "Кухня",
-  "time": "45 минут",
-  "description": "Короткое описание (1–2 предложения)",
-  "ingredients": ["ингредиент 1","ингредиент 2","ингредиент 3","ингредиент 4","ингредиент 5","ингредиент 6"],
-  "steps": ["Шаг 1","Шаг 2","Шаг 3","Шаг 4","Шаг 5"],
-  "tip": "Маленький совет шеф-повара",
-  "emoji": "один подходящий эмодзи"
-}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await res.json();
-    const text = data.content.map(b => b.text || '').join('');
-    const clean = text.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-
-    loading.classList.remove('visible');
-    renderResult(mode, json);
-  } catch (err) {
-    console.error(err);
-    loading.classList.remove('visible');
-    document.getElementById('resultCard').innerHTML = `
-      <div style="padding:28px;text-align:center;color:var(--text-light);">
-        <div style="font-size:36px;margin-bottom:12px;">🌸</div>
-        <div style="font-family:'Playfair Display',serif;font-size:16px;">Что-то пошло не так…</div>
-        <div style="font-size:13px;margin-top:8px;">Попробуй ещё раз</div>
-      </div>`;
-    document.getElementById('resultScreen').classList.add('visible');
-  }
+  const d = mode === 'restaurant' ? getRandom(RESTAURANTS, usedR) : getRandom(RECIPES, usedRec);
+  renderResult(mode, d);
+  document.getElementById('resultScreen').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function starsHtml(rating) {
-  const n = parseFloat(rating);
-  const full = Math.floor(n);
-  const half = n % 1 >= 0.5 ? 1 : 0;
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+function starsHtml(r) {
+  const n = parseFloat(r), f = Math.floor(n), h = n % 1 >= 0.5 ? 1 : 0;
+  return '★'.repeat(f) + (h ? '½' : '') + '☆'.repeat(5 - f - h);
 }
 
 function renderResult(mode, d) {
   const card = document.getElementById('resultCard');
-
   if (mode === 'restaurant') {
     card.innerHTML = `
       <div class="result-top">
-        <div class="result-deco">${d.emoji || '🍽️'}</div>
+        <div class="result-deco">${d.emoji}</div>
         <div class="result-type-label">Ресторан вечера</div>
         <div class="result-title">${d.name}</div>
         <div class="result-subtitle">${d.cuisine}</div>
@@ -644,37 +218,23 @@ function renderResult(mode, d) {
       <div class="result-body">
         <span class="cuisine-badge">${d.vibe}</span>
         <div class="result-section">
-          <div class="rating-row">
-            <span class="stars">${starsHtml(d.rating)}</span>
-            <span>${d.rating} из 5</span>
-          </div>
+          <div class="rating-row"><span class="stars">${starsHtml(d.rating)}</span><span>${d.rating} из 5</span></div>
           <div class="divider"></div>
-          <div class="address-row">
-            <span class="address-pin">📍</span>
-            <span>${d.address}</span>
-          </div>
+          <div class="address-row"><span class="address-pin">📍</span><span>${d.address}</span></div>
         </div>
         <div class="result-section">
           <div class="result-section-title">Почему именно здесь</div>
           <div class="result-section-body">${d.why}</div>
         </div>
         <div class="result-section">
-          <div class="tag-list">
-            ${(d.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}
-          </div>
+          <div class="tag-list">${d.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
         </div>
       </div>`;
+    document.getElementById('shuffleBtn').textContent = '✨ Другой ресторан';
   } else {
-    const stepsHtml = (d.steps || []).map((s, i) =>
-      `<li><span class="step-num">${i+1}</span><span>${s}</span></li>`
-    ).join('');
-    const ingrHtml = (d.ingredients || []).map(ing =>
-      `<li>${ing}</li>`
-    ).join('');
-
     card.innerHTML = `
       <div class="result-top">
-        <div class="result-deco">${d.emoji || '🍳'}</div>
+        <div class="result-deco">${d.emoji}</div>
         <div class="result-type-label">Рецепт вечера</div>
         <div class="result-title">${d.name}</div>
         <div class="result-subtitle">${d.cuisine}</div>
@@ -684,31 +244,21 @@ function renderResult(mode, d) {
           <span class="cuisine-badge">${d.cuisine}</span>
           <span class="time-badge">⏱ ${d.time}</span>
         </div>
-        <div class="result-section">
-          <div class="result-section-body">${d.description}</div>
-        </div>
+        <div class="result-section"><div class="result-section-body">${d.description}</div></div>
         <div class="divider"></div>
         <div class="result-section">
           <div class="result-section-title">Купить в магазине</div>
-          <ul class="ingredient-list">${ingrHtml}</ul>
+          <ul class="ingredient-list">${d.ingredients.map(i=>`<li>${i}</li>`).join('')}</ul>
         </div>
         <div class="divider"></div>
         <div class="result-section">
           <div class="result-section-title">Как готовить</div>
-          <ul class="steps-list">${stepsHtml}</ul>
+          <ul class="steps-list">${d.steps.map((s,i)=>`<li><span class="step-num">${i+1}</span><span>${s}</span></li>`).join('')}</ul>
         </div>
-        ${d.tip ? `
-        <div class="divider"></div>
-        <div class="result-section">
-          <div class="result-section-title">Совет шеф-повара</div>
-          <div class="result-section-body" style="font-style:italic;">💡 ${d.tip}</div>
-        </div>` : ''}
+        ${d.tip ? `<div class="divider"></div><div class="result-section"><div class="result-section-title">Совет шеф-повара</div><div class="result-section-body" style="font-style:italic;">💡 ${d.tip}</div></div>` : ''}
       </div>`;
+    document.getElementById('shuffleBtn').textContent = '✨ Другой рецепт';
   }
-
-  document.getElementById('shuffleBtn').textContent =
-    mode === 'restaurant' ? '✨ Другой ресторан' : '✨ Другой рецепт';
-  document.getElementById('resultScreen').classList.add('visible');
 }
 </script>
 </body>
