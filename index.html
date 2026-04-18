@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Где едим завтра? 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --rose: #E8728A;
+    --rose-light: #F5A8B8;
+    --peach: #F5C5A3;
+    --cream: #FFF5F0;
+    --blush: #FCE8ED;
+    --text-dark: #3D2530;
+    --text-mid: #7A5060;
+    --text-light: #B8909A;
+    --card-bg: rgba(255,255,255,0.85);
+    --shadow: 0 8px 32px rgba(232,114,138,0.18);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  .bg-gradient {
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 10%, rgba(245,197,163,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 5%, rgba(248,180,200,0.45) 0%, transparent 45%),
+      radial-gradient(ellipse at 60% 90%, rgba(232,114,138,0.25) 0%, transparent 50%),
+      linear-gradient(160deg, #FFF0F5 0%, #FFF5EE 50%, #FFF0F8 100%);
+    z-index: 0;
+  }
+
+  .petals {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    top: -40px;
+    font-size: 18px;
+    animation: fall linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  .app {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px 40px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 48px 0 32px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .header-emoji {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    animation: floatEmoji 3s ease-in-out infinite;
+  }
+
+  @keyframes floatEmoji {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .header p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--text-light);
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── CHOICE CARDS ── */
+  .choices {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .choice-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 24px 20px;
+    border: 1.5px solid rgba(232,114,138,0.18);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    user-select: none;
+  }
+
+  .choice-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 16px rgba(232,114,138,0.12);
+  }
+
+  .choice-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+
+  .choice-icon.restaurant { background: linear-gradient(135deg, #FFE0EC, #FFBBD0); }
+  .choice-icon.home       { background: linear-gradient(135deg, #FFE8D5, #FFCBA4); }
+
+  .choice-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .choice-text p {
+    font-size: 12.5px;
+    color: var(--text-light);
+    line-height: 1.45;
+  }
+
+  .choice-arrow {
+    margin-left: auto;
+    color: var(--rose-light);
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ── RESULT SCREEN ── */
+  .result-screen {
+    display: none;
+    width: 100%;
+    max-width: 380px;
+    flex-direction: column;
+    gap: 0;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .result-screen.visible {
+    display: flex;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 0 20px;
+    transition: color 0.2s;
+  }
+
+  .back-btn:hover { color: var(--rose); }
+
+  .result-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1.5px solid rgba(232,114,138,0.18);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .result-top {
+    background: linear-gradient(135deg, #F7C5D5 0%, #F5BFA8 100%);
+    padding: 28px 22px 22px;
+    position: relative;
+  }
+
+  .result-type-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(61,37,48,0.55);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .result-subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .result-deco {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    font-size: 42px;
+    opacity: 0.35;
+  }
+
+  .result-body {
+    padding: 22px;
+  }
+
+  .result-section {
+    margin-bottom: 20px;
+  }
+
+  .result-section:last-child { margin-bottom: 0; }
+
+  .result-section-title {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .result-section-body {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: var(--blush);
+    color: var(--rose);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(232,114,138,0.2);
+  }
+
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  .stars { color: #F5C34C; font-size: 16px; letter-spacing: 1px; }
+
+  .ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ingredient-list li {
+    font-size: 14px;
+    color: var(--text-mid);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.45;
+  }
+
+  .ingredient-list li::before {
+    content: '🛒';
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .steps-list li {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.55;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose-light), var(--rose));
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .shuffle-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 15px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #E8728A, #D4556D);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 18px rgba(232,114,138,0.4);
+  }
+
+  .shuffle-btn:active { transform: scale(0.97); }
+
+  /* ── LOADING ── */
+  .loading-screen {
+    display: none;
+    width: 100%;
+    max-width: 380px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 0 40px;
+    gap: 20px;
+  }
+
+  .loading-screen.visible { display: flex; }
+
+  .spinner {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 3px solid rgba(232,114,138,0.15);
+    border-top-color: var(--rose);
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .loading-dots::after {
+    content: '';
+    animation: dots 1.4s steps(4, end) infinite;
+  }
+
+  @keyframes dots {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(232,114,138,0.25), transparent);
+    margin: 18px 0;
+  }
+
+  .address-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .address-pin { color: var(--rose); flex-shrink: 0; }
+
+  .cuisine-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FFE0EC, #FFCBA4);
+    color: var(--text-dark);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .time-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--blush);
+    color: var(--text-mid);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="petals" id="petals"></div>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header" id="header">
+    <span class="header-emoji">🌸</span>
+    <h1>Где едим завтра?</h1>
+    <p>Казань · выбери, как хочется провести вечер</p>
+  </div>
+
+  <!-- CHOICE CARDS -->
+  <div class="choices" id="choiceScreen">
+    <div class="choice-card" onclick="choose('restaurant')">
+      <div class="choice-icon restaurant">🍽️</div>
+      <div class="choice-text">
+        <h2>Ресторан</h2>
+        <p>Найдём уютное место в Казани с высоким рейтингом — случайно и неожиданно</p>
+      </div>
+      <div class="choice-arrow">›</div>
+    </div>
+
+    <div class="choice-card" onclick="choose('home')">
+      <div class="choice-icon home">🍳</div>
+      <div class="choice-text">
+        <h2>Дома</h2>
+        <p>Рецепт блюда из любой кухни мира — готовим за час на плите</p>
+      </div>
+      <div class="choice-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Ищем идеальное место<span class="loading-dots"></span></div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-screen" id="resultScreen">
+    <button class="back-btn" onclick="goBack()">← вернуться</button>
+    <div class="result-card" id="resultCard">
+      <!-- filled by JS -->
+    </div>
+    <button class="shuffle-btn" id="shuffleBtn" onclick="shuffle()">✨ Попробовать другой вариант</button>
+  </div>
+
+</div>
+
+<script>
+// ── PETALS ──
+const PETALS = ['🌸','🌺','🌷','💮','🌼','✿'];
+const petalContainer = document.getElementById('petals');
+for (let i = 0; i < 14; i++) {
+  const el = document.createElement('div');
+  el.className = 'petal';
+  el.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.fontSize = (12 + Math.random() * 12) + 'px';
+  el.style.animationDuration = (8 + Math.random() * 12) + 's';
+  el.style.animationDelay = (-Math.random() * 14) + 's';
+  petalContainer.appendChild(el);
+}
+
+// ── STATE ──
+let currentMode = null;
+
+function choose(mode) {
+  currentMode = mode;
+  fetchResult(mode);
+}
+
+function shuffle() {
+  fetchResult(currentMode);
+}
+
+function goBack() {
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('choiceScreen').style.display = 'flex';
+  document.getElementById('header').style.display = 'block';
+}
+
+async function fetchResult(mode) {
+  document.getElementById('choiceScreen').style.display = 'none';
+  document.getElementById('header').style.display = 'none';
+  document.getElementById('resultScreen').classList.remove('visible');
+
+  const loading = document.getElementById('loadingScreen');
+  loading.classList.add('visible');
+  document.getElementById('loadingText').textContent =
+    mode === 'restaurant'
+      ? 'Ищем идеальное место'
+      : 'Выбираем рецепт для тебя';
+
+  const prompt = mode === 'restaurant'
+    ? `Ты помогаешь паре в Казани (Россия) выбрать, куда пойти поесть завтра. 
+Предложи ОДИН случайный реальный ресторан или кафе в Казани с высоким рейтингом (4.5+).
+Каждый раз выбирай разное заведение — варьируй кухню, район, атмосферу.
+
+Ответь строго в формате JSON (без markdown, без \`\`\`, только чистый JSON):
+{
+  "name": "Название заведения",
+  "cuisine": "Тип кухни",
+  "rating": "4.8",
+  "address": "Адрес",
+  "vibe": "Одна фраза об атмосфере (уютно, романтично и т.д.)",
+  "why": "2–3 предложения почему стоит пойти именно сюда",
+  "tags": ["тег1","тег2","тег3"],
+  "emoji": "один подходящий эмодзи"
+}`
+    : `Ты помогаешь девушке выбрать, что приготовить дома завтра. 
+Предложи ОДНО блюдо из любой кухни мира (французская, азиатская, итальянская, мексиканская и т.д.), которое можно приготовить за 45–60 минут на плите.
+Каждый раз выбирай разное блюдо из разных кухонь.
+
+Ответь строго в формате JSON (без markdown, без \`\`\`, только чистый JSON):
+{
+  "name": "Название блюда",
+  "cuisine": "Кухня",
+  "time": "45 минут",
+  "description": "Короткое описание (1–2 предложения)",
+  "ingredients": ["ингредиент 1","ингредиент 2","ингредиент 3","ингредиент 4","ингредиент 5","ингредиент 6"],
+  "steps": ["Шаг 1","Шаг 2","Шаг 3","Шаг 4","Шаг 5"],
+  "tip": "Маленький совет шеф-повара",
+  "emoji": "один подходящий эмодзи"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    const text = data.content.map(b => b.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+
+    loading.classList.remove('visible');
+    renderResult(mode, json);
+  } catch (err) {
+    console.error(err);
+    loading.classList.remove('visible');
+    document.getElementById('resultCard').innerHTML = `
+      <div style="padding:28px;text-align:center;color:var(--text-light);">
+        <div style="font-size:36px;margin-bottom:12px;">🌸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;">Что-то пошло не так…</div>
+        <div style="font-size:13px;margin-top:8px;">Попробуй ещё раз</div>
+      </div>`;
+    document.getElementById('resultScreen').classList.add('visible');
+  }
+}
+
+function starsHtml(rating) {
+  const n = parseFloat(rating);
+  const full = Math.floor(n);
+  const half = n % 1 >= 0.5 ? 1 : 0;
+  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+}
+
+function renderResult(mode, d) {
+  const card = document.getElementById('resultCard');
+
+  if (mode === 'restaurant') {
+    card.innerHTML = `
+      <div class="result-top">
+        <div class="result-deco">${d.emoji || '🍽️'}</div>
+        <div class="result-type-label">Ресторан вечера</div>
+        <div class="result-title">${d.name}</div>
+        <div class="result-subtitle">${d.cuisine}</div>
+      </div>
+      <div class="result-body">
+        <span class="cuisine-badge">${d.vibe}</span>
+        <div class="result-section">
+          <div class="rating-row">
+            <span class="stars">${starsHtml(d.rating)}</span>
+            <span>${d.rating} из 5</span>
+          </div>
+          <div class="divider"></div>
+          <div class="address-row">
+            <span class="address-pin">📍</span>
+            <span>${d.address}</span>
+          </div>
+        </div>
+        <div class="result-section">
+          <div class="result-section-title">Почему именно здесь</div>
+          <div class="result-section-body">${d.why}</div>
+        </div>
+        <div class="result-section">
+          <div class="tag-list">
+            ${(d.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  } else {
+    const stepsHtml = (d.steps || []).map((s, i) =>
+      `<li><span class="step-num">${i+1}</span><span>${s}</span></li>`
+    ).join('');
+    const ingrHtml = (d.ingredients || []).map(ing =>
+      `<li>${ing}</li>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="result-top">
+        <div class="result-deco">${d.emoji || '🍳'}</div>
+        <div class="result-type-label">Рецепт вечера</div>
+        <div class="result-title">${d.name}</div>
+        <div class="result-subtitle">${d.cuisine}</div>
+      </div>
+      <div class="result-body">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+          <span class="cuisine-badge">${d.cuisine}</span>
+          <span class="time-badge">⏱ ${d.time}</span>
+        </div>
+        <div class="result-section">
+          <div class="result-section-body">${d.description}</div>
+        </div>
+        <div class="divider"></div>
+        <div class="result-section">
+          <div class="result-section-title">Купить в магазине</div>
+          <ul class="ingredient-list">${ingrHtml}</ul>
+        </div>
+        <div class="divider"></div>
+        <div class="result-section">
+          <div class="result-section-title">Как готовить</div>
+          <ul class="steps-list">${stepsHtml}</ul>
+        </div>
+        ${d.tip ? `
+        <div class="divider"></div>
+        <div class="result-section">
+          <div class="result-section-title">Совет шеф-повара</div>
+          <div class="result-section-body" style="font-style:italic;">💡 ${d.tip}</div>
+        </div>` : ''}
+      </div>`;
+  }
+
+  document.getElementById('shuffleBtn').textContent =
+    mode === 'restaurant' ? '✨ Другой ресторан' : '✨ Другой рецепт';
+  document.getElementById('resultScreen').classList.add('visible');
+}
+</script>
+</body>
+</html>
